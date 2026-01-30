@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Happy Birthday 💖</title>
+
+
+<!-- ======================
+     CUSTOMIZATION SECTION
+     ====================== -->
+<script>
+const HER_NAME = "My Favorite Person";
+const BIRTHDAY_MESSAGE = "Today isn’t just your birthday… it’s a reminder that the world became softer the day you arrived.";
+const PERSONAL_NOTE = "I don’t know what the future holds — but I know I’m grateful for every smile, every laugh, and every quiet moment with you.";
+const CLOSING_LINE = "Happy Birthday. You mean more than you know.";
+</script>
+
+
+<style>
+/* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+
+/* ===== GLOBAL THEME ===== */
+body {
+  background: radial-gradient(circle at top, #1a0f1f, #050507);
+  color: #f5e9ff;
+  overflow-x: hidden;
+}
+
+
+section {
+  min-height: 100vh;
+  padding: 80px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+
+/* ===== PARTICLES ===== */
+canvas {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+
+/* ===== TEXT STYLES ===== */
+h1 {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin-bottom: 20px;
+}
+
+
+h2 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+
+p {
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  line-height: 1.7;
+  max-width: 720px;
+  margin: 0 auto;
+  opacity: 0.9;
+}
+
+
+/* ===== GLOW EFFECT ===== */
+.glow {
+  text-shadow: 0 0 15px rgba(255, 150, 255, 0.35);
+}
+
+
+/* ===== BUTTON ===== */
+button {
+  margin-top: 40px;
+  padding: 14px 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+
+button:hover {
+  background: rgba(255,255,255,0.18);
+  transform: scale(1.05);
+}
+
+
+/* ===== FADE-IN ANIMATION ===== */
+.fade {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 1.2s ease;
+}
+
+
+.fade.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ===== HEART ===== */
+.heart {
+  font-size: 3rem;
+  animation: pulse 2s infinite;
+  margin-top: 20px;
+}
+
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.7; }
+}
+</style>
+</head>
+
+
+<body>
+
+
+<canvas id="particles"></canvas>
+
+
+<!-- ===== SECTION 1 ===== -->
+<section>
+  <div class="fade">
+    <h1 class="glow">Happy Birthday, <span id="name"></span> 🎂</h1>
+    <p id="msg"></p>
+    <button onclick="nextSection()">Begin ✨</button>
+  </div>
+</section>
+
+
+<!-- ===== SECTION 2 ===== -->
+<section>
+  <div class="fade">
+    <h2 class="glow">This Day Matters</h2>
+    <p>
+      Out of all the days in the year, this one feels different.
+      Softer. Warmer. Like the universe paused just long enough to smile.
+    </p>
+  </div>
+</section>
+
+
+<!-- ===== SECTION 3 ===== -->
+<section>
+  <div class="fade">
+    <h2 class="glow">Something I Wanted You to Know</h2>
+    <p id="note"></p>
+  </div>
+</section>
+
+
+<!-- ===== SECTION 4 ===== -->
+<section>
+  <div class="fade">
+    <h2 class="glow">And So…</h2>
+    <p id="closing"></p>
+    <div class="heart">💖</div>
+  </div>
+</section>
+
+
+<script>
+/* ===== TEXT INJECTION ===== */
+document.getElementById("name").innerText = HER_NAME;
+document.getElementById("msg").innerText = BIRTHDAY_MESSAGE;
+document.getElementById("note").innerText = PERSONAL_NOTE;
+document.getElementById("closing").innerText = CLOSING_LINE;
+
+
+/* ===== SCROLL FADE ===== */
+const fades = document.querySelectorAll(".fade");
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add("show");
+  });
+}, { threshold: 0.3 });
+
+
+fades.forEach(f => observer.observe(f));
+
+
+function nextSection() {
+  window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+}
+
+
+/* ===== PARTICLE BACKGROUND ===== */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+let w, h;
+const particles = [];
+
+
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resize);
+resize();
+
+
+for (let i = 0; i < 120; i++) {
+  particles.push({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    r: Math.random() * 2 + 0.5,
+    dx: (Math.random() - 0.5) * 0.2,
+    dy: (Math.random() - 0.5) * 0.2
+  });
+}
+
+
+function animate() {
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle = "rgba(255,180,255,0.6)";
+  particles.forEach(p => {
+    p.x += p.dx;
+    p.y += p.dy;
+    if (p.x < 0 || p.x > w) p.dx *= -1;
+    if (p.y < 0 || p.y > h) p.dy *= -1;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+
+
+</body>
+</html>
